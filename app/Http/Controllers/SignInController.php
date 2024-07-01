@@ -14,7 +14,7 @@ class SignInController extends Controller
         ])){
             $request->session()->regenerate();
 
-            return redirect()->rout('home');
+            return redirect()->route('home');
         }
         return redirect()->route('home');
     }

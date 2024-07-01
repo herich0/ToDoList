@@ -1,5 +1,5 @@
 <?php
-use app\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +14,9 @@ Route::get('/signup', function (){
 })->name('signup');
 Route::post('/signup', [SignUpController::class, 'signup'])->name('signup');
 
+route::get('/tasks/get', [TaskController::class, 'getAllTasksByUserId']);
+
 Route::get('/home', function(){
     return view('home');
 })->name('home')->middleware('auth');
-Route::post('/home', [TaskController::class, 'store'])->middleware('auth');
+Route::post('/home', [TaskController::class, 'store'])->middleware('auth')->name('task_register');
