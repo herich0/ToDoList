@@ -16,8 +16,13 @@ class TaskController extends Controller
             'description'=>['required','min:3','max:255'],
             'category'=>['required','min:3','max:50'],
         ]);
-
-        dd(Task::create($validated));
+        Task::create([
+            'user_id' => Auth::id(),
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'category' => $validated['category'],
+            'status'=> false,
+        ]);
 
         return redirect()->route('home');
     }
@@ -31,5 +36,10 @@ class TaskController extends Controller
             ->get();
 
         dd($tasks);
+    }
+
+    public function getAllTasks():array{
+        dd(Task::where('user_id',Auth::id())->get());
+        return Task::find();
     }
 }

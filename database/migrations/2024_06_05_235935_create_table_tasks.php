@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->biginteger('user_id');
             $table->string('category',50);
-            $table->string('name',50);
             $table->string('title', 50);
             $table->string('description', 200)->nullable;
             $table->boolean('status');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('table_user');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

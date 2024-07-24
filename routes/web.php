@@ -20,3 +20,5 @@ Route::get('/home', function(){
     return view('home');
 })->name('home')->middleware('auth');
 Route::post('/home', [TaskController::class, 'store'])->middleware('auth')->name('task_register');
+
+Route::get('/tasks',[TaskController::class, 'getAllTasks']);
