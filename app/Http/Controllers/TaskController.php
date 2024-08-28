@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\models\User;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
+    public function index()
+    {
+        $tasks = $this->getAllTasksByUserId();
+
+        if ($tasks->isEmpty()) {
+            return view('home', ['tasks' => collect()]); // Use collect() para criar uma coleção vazia
+        }
+
+        return view('home', ['tasks' => $tasks]);
+    }
+
     public function store (Request $request)
     {
         $validated = $request->validate([
@@ -27,19 +39,13 @@ class TaskController extends Controller
         return redirect()->route('home');
     }
 
-    public function getAllTasksByUserId(){
+    private function getAllTasksByUserId()
+    {
         $user_id = Auth::id();
-
-        $tasks=DB::table('tasks')
-            ->select()
-            ->where('user_id','=',$user_id)
-            ->get();
-
-        dd($tasks);
+        return Task::where('user_id', $user_id)->get();
     }
 
-    public function getAllTasks():array{
-        dd(Task::where('user_id',Auth::id())->get());
-        return Task::find();
+    public function getAllTasks(){
+        return User::find(Auth::id())->tasks;
     }
 }

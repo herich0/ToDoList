@@ -14,11 +14,6 @@ Route::get('/signup', function (){
 })->name('signup');
 Route::post('/signup', [SignUpController::class, 'signup'])->name('signup');
 
-route::get('/tasks/get', [TaskController::class, 'getAllTasksByUserId']);
-
-Route::get('/home', function(){
-    return view('home');
-})->name('home')->middleware('auth');
+Route::get('/home', [TaskController::class, 'index'])->name('home')->middleware('auth');
 Route::post('/home', [TaskController::class, 'store'])->middleware('auth')->name('task_register');
 
-Route::get('/tasks',[TaskController::class, 'getAllTasks']);
