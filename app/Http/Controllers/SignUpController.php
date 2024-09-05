@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class SignUpController extends Controller
@@ -15,7 +16,7 @@ class SignUpController extends Controller
             'birthDate' => ['required','date'],
             'password' => ['required']
         ]);
-        User::create([
+        $user = User::create([
             'name'=>$validated['name'],
             'email'=>$validated['email'],
             'cpf'=>$validated['cpf'],
@@ -23,6 +24,8 @@ class SignUpController extends Controller
             'password'=>$validated['password'],
         ]);
 
-        return redirect()->route('login');
+        Auth::login($user);
+
+        return redirect()->route('home');
     }
 }

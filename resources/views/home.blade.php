@@ -27,9 +27,20 @@
                     <strong>{{ $task->title }}</strong> - {{ $task->description }}
                     <br>
                     <em>Category: {{ $task->category }}</em>
+                    <form action="{{ route('task.destroy', $task->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
+                </form>
                 </li>
             @endforeach
         </ul>
     @endif
     
+    <form action="{{ route('tasks.destroyAll') }}" method="POST" style="margin-top: 20px;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" onclick="return confirm('Are you sure you want to delete all tasks?')">Delete All Tasks</button>
+    </form>
+
 @endsection

@@ -17,3 +17,5 @@ Route::post('/signup', [SignUpController::class, 'signup'])->name('signup');
 Route::get('/home', [TaskController::class, 'index'])->name('home')->middleware('auth');
 Route::post('/home', [TaskController::class, 'store'])->middleware('auth')->name('task_register');
 
+Route::delete('/task/{id}', [TaskController::class, 'destroy'])->middleware('auth')->name('task.destroy');
+Route::delete('/tasks/delete-all', [TaskController::class, 'destroyAll'])->middleware('auth')->name('tasks.destroyAll');

@@ -39,6 +39,24 @@ class TaskController extends Controller
         return redirect()->route('home');
     }
 
+    public function destroyAll ()
+    {
+        $user_id = Auth::id();
+        Task::where('user_id',$user_id)->delete();
+        return redirect()->route('home');
+    }
+
+    public function destroy($id)
+    {
+        $task = Task::where('id', $id)->where('user_id', Auth::id())->first();
+        if (!$task) {
+            return redirect()->route('home');
+        }
+        $task->delete();
+
+        return redirect()->route('home');
+    }
+
     private function getAllTasksByUserId()
     {
         $user_id = Auth::id();
