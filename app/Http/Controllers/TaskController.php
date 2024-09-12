@@ -15,7 +15,7 @@ class TaskController extends Controller
         $tasks = $this->getAllTasksByUserId();
 
         if ($tasks->isEmpty()) {
-            return view('home', ['tasks' => collect()]); // Use collect() para criar uma coleção vazia
+            return view('home', ['tasks' => collect()]); 
         }
 
         return view('home', ['tasks' => $tasks]);
@@ -65,5 +65,41 @@ class TaskController extends Controller
 
     public function getAllTasks(){
         return User::find(Auth::id())->tasks;
+    }
+
+    public function edit($id)
+    {
+        $task = Task::findOrFail($id);
+
+        if ($task->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('edit', compact('task'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'min:3', 'max:50'],
+            'description' => ['required', 'min:3', 'max:255'],
+            'category' => ['required', 'min:3', 'max:50'],
+            'status' => ['required', 'boolean'],
+        ]);
+
+        $task = Task::findOrFail($id);
+
+        if ($task->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $task->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'category' => $validated['category'],
+            'status' => $validated['status'],
+        ]);
+
+        return redirect()->route('home');
     }
 }
