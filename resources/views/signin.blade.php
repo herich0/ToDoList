@@ -1,18 +1,31 @@
 @extends('layouts.base')
 
-@section('title', 'sign in')
+@section('title', 'Sign In')
 
 @section('body')
-    <form action="{{ route('login') }}" method="post">
-        @csrf
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card w-50">
+            <div class="card-header text-center">
+                <h4>Sign In</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('login') }}" method="post">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
 
-        <label for="email">email</label>
-        <input type="email" name="email">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
 
-
-        <label for="password">password</labe>
-        <input type="password" name="password">
-
-        <button type="submit">Submit</button>
-    </form>
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
